@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <title>Carrinho - 2R</title>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav container">
+        <a class="brand" href="index.html">
+          <img src="imagens/marca.png" alt="2R Camisetas" class="brand-logo" />
+          <span class="brand-name">2R Camisetas</span>
+        </a>
+        <button
+          class="nav-toggle"
+          aria-label="Abrir menu"
+          aria-expanded="false"
+        >
+          <span class="hamb"></span><span class="hamb"></span
+          ><span class="hamb"></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="camisetas-masculinas.html">Masculinas</a></li>
+          <li><a href="camisetas-femininas.html">Femininas</a></li>
+          <li><a href="cadastro.html">Cadastre-se</a></li>
+          <li><a href="carrinho.html" id="cartLink">Carrinho</a></li>
+          <li><a href="index.html#login">Login</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="container">
+      <h1 class="page-title">Seu Carrinho</h1>
+      <div class="cart-grid">
+        <div id="cartItems" class="cart-items">
+          <!-- Os itens do carrinho são carregados aqui por JavaScript -->
+        </div>
+
+        <aside class="cart-summary">
+          <div class="cart-totals">
+            <div class="total-row">
+              <span>Subtotal</span>
+              <span id="cart-subtotal">R$ 0,00</span>
+            </div>
+            <div class="total-row">
+              <span>Frete</span>
+              <span id="cart-shipping">A calcular</span>
+            </div>
+            <div class="total-row grand-total">
+              <span>Total</span>
+              <span id="cart-total">R$ 0,00</span>
+            </div>
+          </div>
+
+          <section class="shipping-calculator">
+            <h2>Calcular Frete</h2>
+            <div class="form-row input-row">
+              <input
+                type="text"
+                id="cep-input"
+                placeholder="00000-000"
+                maxlength="9"
+              />
+              <button id="calculate-shipping-btn" class="btn">OK</button>
+            </div>
+            <div id="shipping-results">
+              <!-- Resultados do frete serão injetados aqui -->
+            </div>
+          </section>
+
+          <section class="pagamento">
+            <h2>Formas de Pagamento</h2>
+            <ul class="payment-methods">
+              <li>
+                <label>
+                  <input
+                    type="radio"
+                    name="pagamento"
+                    value="credito"
+                    checked
+                  />
+                  Cartão de Crédito
+                </label>
+                <div class="card-flags">
+                  <img src="imagens/cartoes/visa.png" alt="Visa" />
+                  <img src="imagens/cartoes/master.png" alt="Mastercard" />
+                  <img src="imagens/cartoes/elo.png" alt="Elo" />
+                </div>
+              </li>
+              <li>
+                <label>
+                  <input type="radio" name="pagamento" value="debito" />
+                  Cartão de Débito
+                </label>
+                <div class="card-flags">
+                  <img src="imagens/cartoes/visa.png" alt="Visa" />
+                  <img src="imagens/cartoes/master.png" alt="Mastercard" />
+                  <img src="imagens/cartoes/elo.png" alt="Elo" />
+                </div>
+              </li>
+              <li>
+                <label>
+                  <input type="radio" name="pagamento" value="pix" />
+                  Pix
+                </label>
+              </li>
+              <li>
+                <label>
+                  <input type="radio" name="pagamento" value="boleto" />
+                  Boleto
+                </label>
+              </li>
+            </ul>
+            <div class="form-actions">
+              <button class="btn primary" id="checkoutBtn">
+                Finalizar Compra
+              </button>
+            </div>
+          </section>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>
+          &copy; <span id="year"></span> 2R Camisetas — Todos os direitos
+          reservados.
+        </p>
+        <ul class="social">
+          <li>
+            <a href="https://www.whatsapp.com/" aria-label="WhatsApp"
+              ><img src="imagens/icones/whatsapp.png" alt="WhatsApp"
+            /></a>
+          </li>
+          <li>
+            <a href="https://www.instagram.com/" aria-label="Instagram"
+              ><img src="imagens/icones/instagram.png" alt="Instagram"
+            /></a>
+          </li>
+        </ul>
+      </div>
+    </footer>
+    <script src="js/scripts.js"></script>
+  </body>
+</html>

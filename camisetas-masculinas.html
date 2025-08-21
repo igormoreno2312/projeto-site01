@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <title>Camisetas Masculinas - 2R</title>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav container">
+        <a class="brand" href="index.html">
+          <img src="imagens/marca.png" alt="2R Camisetas" class="brand-logo" />
+          <span class="brand-name">2R Camisetas</span>
+        </a>
+        <button
+          class="nav-toggle"
+          aria-label="Abrir menu"
+          aria-expanded="false"
+        >
+          <span class="hamb"></span><span class="hamb"></span
+          ><span class="hamb"></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="camisetas-masculinas.html">Masculinas</a></li>
+          <li><a href="camisetas-femininas.html">Femininas</a></li>
+          <li><a href="cadastro.html">Cadastre-se</a></li>
+          <li><a href="carrinho.html" id="cartLink">Carrinho</a></li>
+          <li><a href="index.html#login">Login</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="container">
+      <h1 class="page-title">Camisetas Masculinas</h1>
+      <section class="produto-lista">
+        <article class="produto">
+          <a href="produto-detalhe.html?id=masc-preta-1">
+            <img
+              src="imagens/camisetas masculinas/camiseta preta frente.png"
+              alt="Camiseta preta"
+              class="produto-imagem"
+              onerror="this.style.display='none'"
+            />
+          </a>
+          <h2>Camiseta Gola Careca 100% Algodão</h2>
+          <form class="tamanhos" aria-label="Escolha de tamanho">
+            <label><input type="radio" name="tm1" value="P" /> P</label>
+            <label><input type="radio" name="tm1" value="M" /> M</label>
+            <label><input type="radio" name="tm1" value="G" /> G</label>
+          </form>
+          <p class="price">R$ 59,90</p>
+          <a href="#" class="btn primary add-to-cart-btn" data-color="Preta"
+            >Comprar</a
+          >
+        </article>
+
+        <article class="produto">
+          <a href="produto-detalhe.html?id=masc-preta-2">
+            <img
+              src="imagens/camisetas masculinas/camiseta preta frente 1.png"
+              alt="Camiseta preta 1"
+              class="produto-imagem"
+              onerror="this.style.display='none'"
+            />
+          </a>
+          <h2>Camiseta Gola Careca 100% Algodão</h2>
+          <form class="tamanhos">
+            <label><input type="radio" name="tm2" value="P" /> P</label>
+            <label><input type="radio" name="tm2" value="M" /> M</label>
+            <label><input type="radio" name="tm2" value="G" /> G</label>
+          </form>
+          <p class="price">R$ 59,90</p>
+          <a href="#" class="btn primary add-to-cart-btn" data-color="Preta"
+            >Comprar</a
+          >
+        </article>
+
+        <article class="produto">
+          <a href="produto-detalhe.html?id=masc-preta-3">
+            <img
+              src="imagens/camisetas masculinas/camiseta preta frente 2.png"
+              alt="Camiseta preta 2"
+              class="produto-imagem"
+              onerror="this.style.display='none'"
+            />
+          </a>
+          <h2>Camiseta Gola Careca 100% Algodão</h2>
+          <form class="tamanhos">
+            <label><input type="radio" name="tm3" value="P" /> P</label>
+            <label><input type="radio" name="tm3" value="M" /> M</label>
+            <label><input type="radio" name="tm3" value="G" /> G</label>
+          </form>
+          <p class="price">R$ 59,90</p>
+          <a href="#" class="btn primary add-to-cart-btn" data-color="Preta"
+            >Comprar</a
+          >
+        </article>
+
+        <article class="produto">
+          <a href="produto-detalhe.html?id=masc-branca-1">
+            <img
+              src="imagens/camisetas masculinas/camiseta branca frente.png"
+              alt="Camiseta branca"
+              class="produto-imagem"
+              onerror="this.style.display='none'"
+            />
+          </a>
+          <h2>Camiseta Gola Careca 100% Algodão</h2>
+          <form class="tamanhos">
+            <label><input type="radio" name="tm4" value="P" /> P</label>
+            <label><input type="radio" name="tm4" value="M" /> M</label>
+            <label><input type="radio" name="tm4" value="G" /> G</label>
+          </form>
+          <p class="price">R$ 59,90</p>
+          <a href="#" class="btn primary add-to-cart-btn" data-color="Branca"
+            >Comprar</a
+          >
+        </article>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>
+          &copy; <span id="year"></span> 2R Camisetas — Todos os direitos
+          reservados.
+        </p>
+        <ul class="social">
+          <li>
+            <a href="https://www.whatsapp.com/" aria-label="WhatsApp"
+              ><img src="imagens/icones/whatsapp.png" alt="WhatsApp"
+            /></a>
+          </li>
+          <li>
+            <a href="https://www.instagram.com/" aria-label="Instagram"
+              ><img src="imagens/icones/instagram.png" alt="Instagram"
+            /></a>
+          </li>
+        </ul>
+      </div>
+    </footer>
+    <script src="js/scripts.js"></script>
+  </body>
+</html>

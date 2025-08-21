@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <title>2R Camisetas</title>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav container">
+        <a class="brand" href="index.html">
+          <img src="imagens/marca.png" alt="2R Camisetas" class="brand-logo" />
+          <span class="brand-name">2R Camisetas</span>
+        </a>
+
+        <button
+          class="nav-toggle"
+          aria-label="Abrir menu"
+          aria-expanded="false"
+        >
+          <span class="hamb"></span><span class="hamb"></span
+          ><span class="hamb"></span>
+        </button>
+
+        <ul class="nav-links" id="navLinks">
+          <li><a href="camisetas-masculinas.html">Masculinas</a></li>
+          <li><a href="camisetas-femininas.html">Femininas</a></li>
+          <li><a href="cadastro.html">Cadastre-se</a></li>
+          <li><a href="carrinho.html" id="cartLink">Carrinho</a></li>
+          <li><a href="#" id="loginLink">Login</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section class="hero">
+        <div class="hero-content">
+          <h1>Qualidade que veste você</h1>
+          <p>
+            Camisetas 100% algodão com conforto e estilo. Masculinas e femininas
+            em várias cores.
+          </p>
+          <div class="hero-actions">
+            <a class="btn primary" href="camisetas-masculinas.html"
+              >Masculinas</a
+            >
+            <a class="btn" href="camisetas-femininas.html">Femininas</a>
+          </div>
+        </div>
+        <div class="hero-media">
+          <div class="carousel">
+            <div class="carousel-slides">
+              <img
+                src="imagens/estampas/001.png"
+                alt="Estampa 2R 1"
+                class="carousel-slide"
+                onerror="this.style.display='none'"
+              />
+              <img
+                src="imagens/estampas/002.png"
+                alt="Estampa 2R 2"
+                class="carousel-slide"
+                onerror="this.style.display='none'"
+              />
+              <img
+                src="imagens/estampas/003.png"
+                alt="Estampa 2R 3"
+                class="carousel-slide"
+                onerror="this.style.display='none'"
+              />
+              <img
+                src="imagens/estampas/004.png"
+                alt="Estampa 2R 3"
+                class="carousel-slide"
+                onerror="this.style.display='none'"
+              />
+              <img
+                src="imagens/estampas/005.png"
+                alt="Estampa 2R 3"
+                class="carousel-slide"
+                onerror="this.style.display='none'"
+              />
+            </div>
+            <button class="carousel-btn prev" aria-label="Anterior">
+              &#10094;
+            </button>
+            <button class="carousel-btn next" aria-label="Próximo">
+              &#10095;
+            </button>
+            <div class="carousel-dots"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid-feature">
+        <article class="card">
+          <img src="imagens/icones/cotton-icon.svg" alt="" class="card-icon" />
+          <h3>Algodão Premium</h3>
+          <p>Tecido macio, respirável e durável para o dia a dia.</p>
+        </article>
+        <article class="card">
+          <img
+            src="imagens/icones/shipping-icon.svg"
+            alt=""
+            class="card-icon"
+          />
+          <h3>Frete Rápido</h3>
+          <p>Envios com rastreio para todo o Brasil.</p>
+        </article>
+        <article class="card">
+          <img
+            src="imagens/icones/exchange-icon.svg"
+            alt=""
+            class="card-icon"
+          />
+          <h3>Troca Fácil</h3>
+          <p>Primeira troca gratuita em até 7 dias.</p>
+        </article>
+      </section>
+    </main>
+
+    <!-- Login Modal -->
+    <div
+      id="loginModal"
+      class="modal"
+      aria-hidden="true"
+      role="dialog"
+      aria-labelledby="loginTitle"
+    >
+      <div class="modal-content">
+        <button class="close-btn" aria-label="Fechar">&times;</button>
+
+        <div id="loginView">
+          <h2 id="loginTitle">Login</h2>
+          <form id="loginForm">
+            <div class="form-row">
+              <label for="loginEmail">Email</label>
+              <div class="input-group">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="input-icon"
+                >
+                  <path
+                    d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                  ></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+                <input
+                  type="email"
+                  id="loginEmail"
+                  name="loginEmail"
+                  required
+                />
+              </div>
+            </div>
+            <div class="form-row">
+              <label for="loginSenha">Senha</label>
+              <div class="input-row">
+                <div class="input-group">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="input-icon"
+                  >
+                    <rect
+                      x="3"
+                      y="11"
+                      width="18"
+                      height="11"
+                      rx="2"
+                      ry="2"
+                    ></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                  <input
+                    type="password"
+                    id="loginSenha"
+                    name="loginSenha"
+                    required
+                  />
+                </div>
+                <label class="inline"
+                  ><input type="checkbox" id="showPass" /> Mostrar</label
+                >
+              </div>
+            </div>
+            <div class="form-row form-row-space-between">
+              <label class="inline"
+                ><input type="checkbox" id="savePass" /> Salvar senha</label
+              >
+              <a href="#" id="forgotPasswordLink" class="form-link"
+                >Esqueci minha senha?</a
+              >
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn primary">Entrar</button>
+            </div>
+          </form>
+          <p class="modal-footer-link">
+            Não tem uma conta? <a href="cadastro.html">Cadastre-se</a>
+          </p>
+        </div>
+
+        <div id="forgotPasswordView" class="hidden">
+          <h2 id="forgotPasswordTitle">Recuperar Senha</h2>
+          <form id="forgotPasswordForm">
+            <p class="form-description">
+              Digite seu e-mail e enviaremos um link para redefinir sua senha.
+            </p>
+            <div class="form-row">
+              <label for="recoveryEmail">Email</label>
+              <div class="input-group">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="input-icon"
+                >
+                  <path
+                    d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                  ></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+                <input
+                  type="email"
+                  id="recoveryEmail"
+                  name="recoveryEmail"
+                  required
+                />
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn primary">Enviar Link</button>
+            </div>
+          </form>
+          <p class="modal-footer-link">
+            <a href="#" id="backToLoginLink" class="form-link"
+              >Voltar para o login</a
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>
+          &copy; <span id="year"></span> 2R Camisetas — Todos os direitos
+          reservados.
+        </p>
+        <ul class="social">
+          <li>
+            <a href="https://www.whatsapp.com/" aria-label="WhatsApp"
+              ><img src="imagens/icones/whatsapp.png" alt="WhatsApp"
+            /></a>
+          </li>
+          <li>
+            <a href="https://www.instagram.com/" aria-label="Instagram"
+              ><img src="imagens/icones/instagram.png" alt="Instagram"
+            /></a>
+          </li>
+        </ul>
+      </div>
+    </footer>
+    <script src="js/scripts.js"></script>
+  </body>
+</html>
