@@ -47,6 +47,34 @@ function togglePassword() {
   pass.type = pass.type === "password" ? "text" : "password";
 }
 document.addEventListener("DOMContentLoaded", () => {
+  // --- Theme Toggler
+  const themeToggle = document.getElementById("theme-toggle");
+  const htmlEl = document.documentElement;
+
+  const applyTheme = (theme) => {
+    htmlEl.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  };
+
+  if (themeToggle) {
+    themeToggle.addEventListener("click", () => {
+      const currentTheme = htmlEl.getAttribute("data-theme") || "light";
+      const newTheme = currentTheme === "light" ? "dark" : "light";
+      applyTheme(newTheme);
+    });
+  }
+
+  // Apply saved theme on load, or system preference
+  const savedTheme = localStorage.getItem("theme");
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+  if (savedTheme) {
+    applyTheme(savedTheme);
+  } else if (prefersDark) {
+    applyTheme("dark");
+  }
+  // --- End Theme Toggler
+
   // Open modal via nav button (index only)
   const link = document.getElementById("loginLink");
   if (link) {
@@ -351,6 +379,34 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 2500); // Simulate 2.5 seconds processing time
     });
   }
+
+  // --- Scroll-triggered Animations ---
+  // Select all elements we want to animate
+  const animatedElements = document.querySelectorAll(
+    ".hero-content, .hero-media, .card, .produto, .form, .cart-items, .cart-summary, .product-detail-grid"
+  );
+
+  // Check if browser supports IntersectionObserver
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target); // Stop observing once visible
+          }
+        });
+      },
+      {
+        rootMargin: "0px 0px -50px 0px", // Start animation a bit before it's fully visible
+      }
+    );
+
+    animatedElements.forEach((el) => {
+      el.classList.add("animate-on-scroll");
+      observer.observe(el);
+    });
+  }
 });
 
 // ---- Cart
@@ -363,6 +419,23 @@ const allProducts = [
     image: "imagens/camisetas masculinas/camiseta preta frente.png",
     color: "Preta",
     sizes: ["P", "M", "G"],
+    material: "100% Algodão Fio 30.1 Penteado",
+    gola: "Gola careca com reforço ombro a ombro",
+    qualidade: "Não encolhe e não desbota após a lavagem.",
+    rating: 4.5,
+    reviews: 18,
+    comments: [
+      {
+        author: "João S.",
+        date: "12/05/2024",
+        text: "Ótima qualidade, tecido muito confortável. Recomendo!",
+      },
+      {
+        author: "Maria P.",
+        date: "10/05/2024",
+        text: "A camiseta é linda, mas achei a gola um pouco apertada.",
+      },
+    ],
   },
   {
     id: "masc-preta-2",
@@ -371,6 +444,23 @@ const allProducts = [
     image: "imagens/camisetas masculinas/camiseta preta frente 1.png",
     color: "Preta",
     sizes: ["P", "M", "G"],
+    material: "100% Algodão Fio 30.1 Penteado",
+    gola: "Gola careca com reforço ombro a ombro",
+    qualidade: "Não encolhe e não desbota após a lavagem.",
+    rating: 4.8,
+    reviews: 25,
+    comments: [
+      {
+        author: "Carlos F.",
+        date: "20/05/2024",
+        text: "Caimento perfeito e a estampa é muito bonita.",
+      },
+      {
+        author: "Ana L.",
+        date: "18/05/2024",
+        text: "Chegou rápido e o material é excelente.",
+      },
+    ],
   },
   {
     id: "masc-preta-3",
@@ -379,6 +469,18 @@ const allProducts = [
     image: "imagens/camisetas masculinas/camiseta preta frente 2.png",
     color: "Preta",
     sizes: ["P", "M", "G"],
+    material: "100% Algodão Fio 30.1 Penteado",
+    gola: "Gola careca com reforço ombro a ombro",
+    qualidade: "Não encolhe e não desbota após a lavagem.",
+    rating: 4.7,
+    reviews: 21,
+    comments: [
+      {
+        author: "Pedro M.",
+        date: "15/05/2024",
+        text: "Gostei muito, comprarei outras cores.",
+      },
+    ],
   },
   {
     id: "masc-branca-1",
@@ -387,6 +489,23 @@ const allProducts = [
     image: "imagens/camisetas masculinas/camiseta branca frente.png",
     color: "Branca",
     sizes: ["P", "M", "G"],
+    material: "100% Algodão Fio 30.1 Penteado",
+    gola: "Gola careca com reforço ombro a ombro",
+    qualidade: "Não encolhe e não desbota após a lavagem.",
+    rating: 4.6,
+    reviews: 15,
+    comments: [
+      {
+        author: "Juliana R.",
+        date: "05/05/2024",
+        text: "Camiseta básica e de ótima qualidade. Essencial!",
+      },
+      {
+        author: "Marcos V.",
+        date: "02/05/2024",
+        text: "Tecido muito bom, não fica transparente.",
+      },
+    ],
   },
   {
     id: "fem-preta-1",
@@ -395,6 +514,23 @@ const allProducts = [
     image: "imagens/camisetas femininas/camiseta preta frente 1.png",
     color: "Preta",
     sizes: ["P", "M", "G"],
+    material: "100% Algodão Fio 30.1 Penteado",
+    gola: "Gola careca com reforço ombro a ombro",
+    qualidade: "Não encolhe e não desbota após a lavagem.",
+    rating: 4.9,
+    reviews: 32,
+    comments: [
+      {
+        author: "Beatriz C.",
+        date: "22/05/2024",
+        text: "A melhor camiseta preta que já tive! Veste super bem.",
+      },
+      {
+        author: "Fernanda A.",
+        date: "21/05/2024",
+        text: "Qualidade impecável, vale cada centavo.",
+      },
+    ],
   },
   // Note: fem-preta-2 is a duplicate in the HTML, linking to the same product.
   {
@@ -404,6 +540,18 @@ const allProducts = [
     image: "imagens/camisetas femininas/camiseta rosa frente.png",
     color: "Rosa",
     sizes: ["P", "M", "G"],
+    material: "100% Algodão Fio 30.1 Penteado",
+    gola: "Gola careca com reforço ombro a ombro",
+    qualidade: "Não encolhe e não desbota após a lavagem.",
+    rating: 4.4,
+    reviews: 12,
+    comments: [
+      {
+        author: "Gabriela L.",
+        date: "11/04/2024",
+        text: "A cor é linda e o tecido é muito macio.",
+      },
+    ],
   },
 ];
 
@@ -617,6 +765,62 @@ function getMockShippingOptions(uf) {
   ];
 }
 
+/**
+ * Renders star rating HTML based on a rating score.
+ * @param {number} rating The product rating (e.g., 4.5).
+ * @param {number} reviewCount The number of reviews.
+ * @returns {string} The HTML string for the star rating.
+ */
+function renderStars(rating, reviewCount, isInteractive = false) {
+  if (typeof rating !== "number" || typeof reviewCount !== "number") return "";
+
+  let starsHTML = "";
+  const roundedRating = Math.round(rating);
+
+  for (let i = 1; i <= 5; i++) {
+    const starClass = i <= roundedRating ? "filled" : "";
+    starsHTML += `
+      <svg class="star-icon ${starClass}" data-star-value="${i}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.007z" clip-rule="evenodd" />
+      </svg>
+    `;
+  }
+
+  const interactiveClass = isInteractive ? "interactive" : "";
+
+  return `
+    <div class="star-rating ${interactiveClass}" data-rating-value="${rating}">
+      ${starsHTML}
+      <span class="rating-text">${rating.toFixed(
+        1
+      )} (${reviewCount} avaliações)</span>
+    </div>
+  `;
+}
+
+function renderComments(comments) {
+  if (!comments || comments.length === 0) {
+    return '<p class="no-comments">Ainda não há comentários para este produto. Seja o primeiro a avaliar!</p>';
+  }
+  return `
+      <ul class="comment-list">
+          ${comments
+            .map(
+              (comment) => `
+              <li class="comment-item">
+                  <div class="comment-header">
+                      <strong class="comment-author">${comment.author}</strong>
+                      <span class="comment-date">${comment.date}</span>
+                  </div>
+                  <p class="comment-text">${comment.text}</p>
+              </li>
+          `
+            )
+            .join("")}
+      </ul>
+  `;
+}
+
 function renderProductDetailsPage() {
   const container = document.getElementById("product-detail-container");
   if (!container) return; // Not on the detail page
@@ -637,12 +841,27 @@ function renderProductDetailsPage() {
 
   document.title = `${product.name} - 2R`; // Update page title
 
+  // Create a .webp version of the image path for modern browsers
+  const webpSrc = product.image.replace(/\.(png|jpg|jpeg)$/, ".webp");
+
+  // Generate star rating HTML
+  const starsHTML = renderStars(product.rating, product.reviews, true);
+
+  // Generate comments HTML
+  const commentsHTML = renderComments(product.comments);
+
   container.innerHTML = `
       <div class="product-detail-image-container">
-          <img src="${product.image}" alt="${product.name}" id="detail-image">
+          <picture>
+            <source srcset="${webpSrc}" type="image/webp">
+            <img src="${product.image}" alt="${
+    product.name
+  }" id="detail-image" width="500" height="500">
+          </picture>
       </div>
       <div class="product-detail-info">
           <h1 id="detail-name">${product.name}</h1>
+          ${starsHTML}
           <p class="price" id="detail-price">R$ ${product.price
             .toFixed(2)
             .replace(".", ",")}</p>
@@ -662,8 +881,131 @@ function renderProductDetailsPage() {
                 .join("")}
           </div>
           <button class="btn primary" id="detail-add-to-cart-btn">Adicionar ao Carrinho</button>
+          <div class="product-features">
+            <h3>Características do Produto</h3>
+            <ul>
+              <li>${product.material}</li>
+              <li>${product.gola}</li>
+              <li>${product.qualidade}</li>
+            </ul>
+          </div>
+          <div class="comments-section">
+            <h3>Comentários</h3>
+            <div id="comment-list-container">
+              ${commentsHTML}
+            </div>
+            <form id="comment-form">
+              <h4>Deixe seu comentário</h4>
+              <div class="form-row">
+                  <textarea id="comment-text" placeholder="Escreva sua opinião sobre o produto..." required rows="4"></textarea>
+              </div>
+              <div class="form-actions">
+                  <button type="submit" class="btn primary">Enviar Comentário</button>
+              </div>
+            </form>
+          </div>
       </div>
   `;
+
+  // --- Interactive Stars Logic ---
+  const starRatingContainer = container.querySelector(
+    ".star-rating.interactive"
+  );
+  if (starRatingContainer) {
+    const stars = Array.from(
+      starRatingContainer.querySelectorAll(".star-icon")
+    );
+    const ratingText = starRatingContainer.querySelector(".rating-text");
+    let currentRating = Math.round(
+      parseFloat(starRatingContainer.dataset.ratingValue)
+    );
+
+    const updateStars = (rating) => {
+      stars.forEach((star) => {
+        const starValue = parseInt(star.dataset.starValue, 10);
+        star.classList.toggle("filled", starValue <= rating);
+      });
+    };
+
+    const handleMouseOver = (e) => {
+      const star = e.target.closest(".star-icon");
+      if (star) {
+        updateStars(parseInt(star.dataset.starValue, 10));
+      }
+    };
+
+    const handleMouseOut = () => {
+      updateStars(currentRating); // Restore to the current (original or clicked) rating
+    };
+
+    const handleClick = (e) => {
+      const star = e.target.closest(".star-icon");
+      if (star) {
+        const newRating = parseInt(star.dataset.starValue, 10);
+        currentRating = newRating; // Update the "saved" rating for the session
+
+        if (ratingText) {
+          ratingText.textContent = `Sua avaliação: ${newRating}.0`;
+        }
+        showToast("Obrigado pela sua avaliação!");
+        // Remove interactivity by removing the event listeners
+        starRatingContainer.removeEventListener("mouseover", handleMouseOver);
+        starRatingContainer.removeEventListener("mouseout", handleMouseOut);
+        starRatingContainer.removeEventListener("click", handleClick);
+        starRatingContainer.classList.remove("interactive");
+      }
+    };
+    starRatingContainer.addEventListener("mouseover", handleMouseOver);
+    starRatingContainer.addEventListener("mouseout", handleMouseOut);
+    starRatingContainer.addEventListener("click", handleClick);
+  }
+
+  // --- Comment Form Logic ---
+  const commentForm = container.querySelector("#comment-form");
+  if (commentForm) {
+    commentForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const textarea = container.querySelector("#comment-text");
+      const commentText = textarea.value.trim();
+
+      if (commentText) {
+        const listContainer = container.querySelector(
+          "#comment-list-container"
+        );
+        let commentList = listContainer.querySelector(".comment-list");
+        const noCommentsP = listContainer.querySelector(".no-comments");
+
+        // If the "no comments" message is present, remove it and create the list
+        if (noCommentsP) {
+          noCommentsP.remove();
+          listContainer.innerHTML = '<ul class="comment-list"></ul>';
+          commentList = listContainer.querySelector(".comment-list");
+        }
+
+        const newComment = document.createElement("li");
+        newComment.className = "comment-item";
+        const today = new Date();
+        const formattedDate = `${today
+          .getDate()
+          .toString()
+          .padStart(2, "0")}/${(today.getMonth() + 1)
+          .toString()
+          .padStart(2, "0")}/${today.getFullYear()}`;
+
+        newComment.innerHTML = `
+          <div class="comment-header">
+              <strong class="comment-author">Você</strong>
+              <span class="comment-date">${formattedDate}</span>
+          </div>
+          <p class="comment-text">${commentText}</p>
+        `;
+
+        commentList.prepend(newComment);
+        textarea.value = "";
+        showToast("Comentário enviado com sucesso!");
+      }
+    });
+  }
 
   container
     .querySelector("#detail-add-to-cart-btn")
