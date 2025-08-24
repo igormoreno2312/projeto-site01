@@ -40,16 +40,22 @@
 
     <main class="container">
       <h1 class="page-title">Crie sua conta</h1>
-      <form class="form" id="registrationForm" action="#" method="post">
+      <form
+        class="form"
+        id="registrationForm"
+        action="#"
+        method="post"
+        novalidate
+      >
         <div class="form-row">
           <label for="nome">Nome</label>
           <input
             type="text"
             id="nome"
             name="nome"
-            required
             placeholder="Seu nome completo"
           />
+          <div class="error-message"></div>
         </div>
         <div class="form-row">
           <label for="cpf">CPF</label>
@@ -57,21 +63,76 @@
             type="text"
             id="cpf"
             name="cpf"
-            required
-            maxlength="11"
-            placeholder="Digite seu CPF"
-            oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+            maxlength="14"
+            placeholder="000.000.000-00"
           />
+          <div class="error-message"></div>
         </div>
         <div class="form-row">
-          <label for="endereco">Endereço</label>
+          <label for="cep">CEP</label>
           <input
             type="text"
-            id="endereco"
-            name="endereco"
-            required
-            placeholder="Rua, número, bairro, cidade"
+            id="cep"
+            name="cep"
+            placeholder="00000-000"
+            maxlength="9"
           />
+          <div class="error-message"></div>
+        </div>
+        <div class="form-row">
+          <label for="logradouro">Logradouro</label>
+          <input
+            type="text"
+            id="logradouro"
+            name="logradouro"
+            placeholder="Sua rua ou avenida"
+          />
+          <div class="error-message"></div>
+        </div>
+        <div class="form-row-grid">
+          <div class="form-row">
+            <label for="numero">Número</label>
+            <input
+              type="text"
+              id="numero"
+              name="numero"
+              placeholder="Ex: 123"
+            />
+            <div class="error-message"></div>
+          </div>
+          <div class="form-row">
+            <label for="bairro">Bairro</label>
+            <input
+              type="text"
+              id="bairro"
+              name="bairro"
+              placeholder="Seu bairro"
+            />
+            <div class="error-message"></div>
+          </div>
+        </div>
+        <div class="form-row-grid">
+          <div class="form-row">
+            <label for="cidade">Cidade</label>
+            <input
+              type="text"
+              id="cidade"
+              name="cidade"
+              placeholder="Sua cidade"
+            />
+            <div class="error-message"></div>
+          </div>
+          <div class="form-row">
+            <label for="estado">Estado (UF)</label>
+            <input
+              type="text"
+              id="estado"
+              name="estado"
+              placeholder="Ex: SP"
+              maxlength="2"
+            />
+            <div class="error-message"></div>
+          </div>
         </div>
         <div class="form-row">
           <label for="telefone">Telefone</label>
@@ -79,9 +140,10 @@
             type="tel"
             id="telefone"
             name="telefone"
-            required
+            maxlength="15"
             placeholder="(XX) XXXXX-XXXX"
           />
+          <div class="error-message"></div>
         </div>
         <div class="form-row">
           <label for="email">Email</label>
@@ -89,9 +151,9 @@
             type="email"
             id="email"
             name="email"
-            required
             placeholder="seu@email.com"
           />
+          <div class="error-message"></div>
         </div>
         <div class="form-row">
           <label for="senha">Senha</label>
@@ -99,10 +161,18 @@
             type="password"
             id="senha"
             name="senha"
-            required
-            minlength="8"
             placeholder="Mínimo 8 caracteres"
           />
+          <div class="error-message"></div>
+          <div
+            id="password-strength-container"
+            class="password-strength-container"
+          >
+            <div class="strength-bar">
+              <div class="strength-bar-fill"></div>
+            </div>
+            <span class="strength-text"></span>
+          </div>
         </div>
         <div class="form-row">
           <label for="confirmar-senha">Confirmar Senha</label>
@@ -110,10 +180,9 @@
             type="password"
             id="confirmar-senha"
             name="confirmar-senha"
-            required
-            minlength="8"
             placeholder="Repita a senha"
           />
+          <div class="error-message"></div>
         </div>
         <div class="form-actions">
           <button type="submit" class="btn primary">Cadastrar</button>
@@ -123,6 +192,15 @@
 
     <footer class="site-footer">
       <div class="container footer-inner">
+        <div class="footer-links">
+          <a href="sobre-nos.html" class="footer-link">Sobre Nós</a>
+          <a href="politica-de-privacidade.html" class="footer-link"
+            >Política de Privacidade</a
+          >
+          <a href="termos-de-servico.html" class="footer-link"
+            >Termos de Serviço</a
+          >
+        </div>
         <p>
           &copy; <span id="year"></span> 2R Camisetas — Todos os direitos
           reservados.
@@ -141,6 +219,25 @@
         </ul>
       </div>
     </footer>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-consent-banner">
+      <p class="cookie-consent-text">
+        Usamos cookies para garantir que você tenha a melhor experiência em
+        nosso site. <a href="politica-de-privacidade.html">Saiba mais</a>.
+      </p>
+      <button id="cookie-accept-btn" class="btn primary">Aceitar</button>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button
+      id="back-to-top-btn"
+      class="back-to-top-btn"
+      title="Voltar ao topo"
+      aria-label="Voltar ao topo"
+    >
+      &uarr;
+    </button>
     <script src="js/scripts.js"></script>
   </body>
 </html>

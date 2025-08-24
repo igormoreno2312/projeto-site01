@@ -75,6 +75,24 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   // --- End Theme Toggler
 
+  // --- Active Nav Link ---
+  const navLinksContainer = document.getElementById("navLinks");
+  if (navLinksContainer) {
+    const links = navLinksContainer.querySelectorAll("a");
+    // Get the filename of the current page (e.g., "carrinho.html")
+    const currentPage = window.location.pathname.split("/").pop();
+
+    links.forEach((link) => {
+      // Get the filename from the link's href
+      const linkPage = link.getAttribute("href").split("/").pop().split("#")[0];
+
+      // Add 'active' class if the link's page matches the current page
+      if (linkPage && currentPage === linkPage) {
+        link.classList.add("active");
+      }
+    });
+  }
+
   // Open modal via nav button (index only)
   const link = document.getElementById("loginLink");
   if (link) {
@@ -311,19 +329,62 @@ document.addEventListener("DOMContentLoaded", () => {
   // Handle Registration Form
   const registrationForm = document.getElementById("registrationForm");
   if (registrationForm) {
-    registrationForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const senha = document.getElementById("senha");
-      const confirmarSenha = document.getElementById("confirmar-senha");
+    const fields = {
+      nome: registrationForm.querySelector("#nome"),
+      cpf: registrationForm.querySelector("#cpf"),
+      cep: registrationForm.querySelector("#cep"),
+      logradouro: registrationForm.querySelector("#logradouro"),
+      numero: registrationForm.querySelector("#numero"),
+      bairro: registrationForm.querySelector("#bairro"),
+      cidade: registrationForm.querySelector("#cidade"),
+      estado: registrationForm.querySelector("#estado"),
+      telefone: registrationForm.querySelector("#telefone"),
+      email: registrationForm.querySelector("#email"),
+      senha: registrationForm.querySelector("#senha"),
+      confirmarSenha: registrationForm.querySelector("#confirmar-senha"),
+    };
 
-      if (senha.value !== confirmarSenha.value) {
-        showToast("As senhas não coincidem. Por favor, tente novamente.");
-        confirmarSenha.focus();
-        return;
+    // Add event listeners for real-time validation
+    for (const field of Object.values(fields)) {
+      if (field) {
+        field.addEventListener("input", () => validateField(field, fields));
+      }
+    }
+
+    // Add specific listeners
+    fields.telefone?.addEventListener("input", maskPhone);
+    fields.cpf?.addEventListener("input", maskCpf);
+    fields.cep?.addEventListener("input", maskCep);
+    fields.senha?.addEventListener("input", () => {
+      if (fields.confirmarSenha.value) {
+        validateField(fields.confirmarSenha, fields);
+      }
+      // Check password strength on input
+      checkPasswordStrength(fields.senha.value);
+    });
+
+    // Add CEP lookup listener
+    fields.cep?.addEventListener("blur", () => {
+      handleCepLookup(fields);
+    });
+
+    registrationForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      let isFormValid = true;
+      // Validate all fields on submit and focus the first invalid one
+      for (const field of Object.values(fields)) {
+        if (field && !validateField(field, fields)) {
+          isFormValid = false;
+        }
       }
 
-      showToast("Cadastro realizado com sucesso!");
-      registrationForm.reset();
+      if (isFormValid) {
+        showToast("Cadastro realizado com sucesso!");
+        this.reset();
+        Object.values(fields).forEach(clearError);
+      } else {
+        showToast("Por favor, corrija os campos inválidos.");
+      }
     });
   }
 
@@ -338,26 +399,22 @@ document.addEventListener("DOMContentLoaded", () => {
   // CEP Input Mask
   const cepInput = document.getElementById("cep-input");
   if (cepInput) {
-    cepInput.addEventListener("input", (e) => {
-      let value = e.target.value.replace(/\D/g, "");
-      if (value.length > 5) {
-        value = value.slice(0, 5) + "-" + value.slice(5, 8);
-      }
-      e.target.value = value;
-    });
+    cepInput.addEventListener("input", maskCep);
   }
 
   // Handle Checkout Button
   const checkoutBtn = document.getElementById("checkoutBtn");
   if (checkoutBtn) {
-    checkoutBtn.addEventListener("click", () => {
+    checkoutBtn.addEventListener("click", async () => {
       const cart = JSON.parse(localStorage.getItem("cart") || "[]");
       if (cart.length === 0) {
         showToast("Seu carrinho está vazio!");
         return;
       }
 
-      if (selectedShippingCost === 0) {
+      // No carrinho, o frete é obrigatório para finalizar
+      const isCartPage = window.location.pathname.includes("carrinho.html");
+      if (isCartPage && selectedShippingCost === 0) {
         showToast("Por favor, calcule o frete antes de finalizar.");
         document.getElementById("cep-input")?.focus();
         return;
@@ -366,17 +423,29 @@ document.addEventListener("DOMContentLoaded", () => {
       checkoutBtn.classList.add("loading");
       checkoutBtn.disabled = true;
 
-      // Simulate a network request
-      setTimeout(() => {
-        // On success:
-        localStorage.removeItem("cart"); // Clear the cart
-        renderCart(); // Re-render to show it's empty
-        showToast("Compra finalizada com sucesso!");
+      try {
+        // 1. Envia os dados do carrinho para o seu novo backend
+        const response = await fetch(
+          "http://localhost:4000/api/create-payment-preference",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ cart, shippingCost: selectedShippingCost }),
+          }
+        );
 
-        // Reset button
+        if (!response.ok)
+          throw new Error("Não foi possível iniciar o pagamento.");
+        const data = await response.json();
+
+        // 2. Redireciona o usuário para a URL de pagamento retornada pelo backend
+        if (data.redirectUrl) window.location.href = data.redirectUrl;
+        else throw new Error("URL de pagamento não recebida.");
+      } catch (error) {
+        showToast(error.message || "Erro ao processar o pedido.");
         checkoutBtn.classList.remove("loading");
         checkoutBtn.disabled = false;
-      }, 2500); // Simulate 2.5 seconds processing time
+      }
     });
   }
 
@@ -405,6 +474,44 @@ document.addEventListener("DOMContentLoaded", () => {
     animatedElements.forEach((el) => {
       el.classList.add("animate-on-scroll");
       observer.observe(el);
+    });
+  }
+
+  // --- Back to Top Button ---
+  const backToTopBtn = document.getElementById("back-to-top-btn");
+  if (backToTopBtn) {
+    // Show/hide button based on scroll position
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 300) {
+        backToTopBtn.classList.add("show");
+      } else {
+        backToTopBtn.classList.remove("show");
+      }
+    });
+
+    // Scroll to top on click
+    backToTopBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    });
+  }
+
+  // --- Cookie Consent Banner ---
+  const cookieBanner = document.getElementById("cookie-consent-banner");
+  const acceptCookiesBtn = document.getElementById("cookie-accept-btn");
+
+  if (cookieBanner && acceptCookiesBtn) {
+    // Check if user has already accepted
+    if (!localStorage.getItem("cookies_accepted")) {
+      cookieBanner.classList.add("show");
+    }
+
+    acceptCookiesBtn.addEventListener("click", () => {
+      cookieBanner.classList.remove("show");
+      localStorage.setItem("cookies_accepted", "true");
     });
   }
 });
@@ -529,6 +636,26 @@ const allProducts = [
         author: "Fernanda A.",
         date: "21/05/2024",
         text: "Qualidade impecável, vale cada centavo.",
+      },
+    ],
+  },
+  {
+    id: "fem-branca-1",
+    name: "Camiseta 100% Algodão",
+    price: 59.9,
+    image: "imagens/camisetas femininas/camiseta branca frente.png",
+    color: "Branca",
+    sizes: ["P", "M", "G"],
+    material: "100% Algodão Fio 30.1 Penteado",
+    gola: "Gola careca com reforço ombro a ombro",
+    qualidade: "Não encolhe e não desbota após a lavagem.",
+    rating: 4.7,
+    reviews: 19,
+    comments: [
+      {
+        author: "Clara S.",
+        date: "19/05/2024",
+        text: "A camiseta branca perfeita! Não é transparente e veste muito bem.",
       },
     ],
   },
@@ -1071,4 +1198,284 @@ function renderCart() {
     .join("");
 
   updateCartSummary(); // Atualiza os totais sempre que o carrinho é renderizado
+}
+
+// --- Address Lookup via ViaCEP ---
+async function handleCepLookup(fields) {
+  const cepField = fields.cep;
+  if (!cepField) return;
+
+  const cep = cepField.value.replace(/\D/g, "");
+  clearError(cepField);
+
+  if (cep.length !== 8) {
+    if (cep.length > 0) {
+      showError(cepField, "CEP inválido. Deve conter 8 dígitos.");
+    }
+    return;
+  }
+
+  const addressFields = [
+    fields.logradouro,
+    fields.bairro,
+    fields.cidade,
+    fields.estado,
+  ];
+
+  // Set fields to a loading state
+  addressFields.forEach((field) => {
+    if (field) {
+      field.value = "Buscando...";
+      field.disabled = true;
+    }
+  });
+
+  try {
+    const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+    if (!response.ok) throw new Error("Não foi possível consultar o CEP.");
+
+    const data = await response.json();
+    if (data.erro) throw new Error("CEP não encontrado. Verifique o número.");
+
+    // Populate fields
+    fields.logradouro.value = data.logradouro;
+    fields.bairro.value = data.bairro;
+    fields.cidade.value = data.localidade;
+    fields.estado.value = data.uf;
+
+    addressFields.forEach(clearError);
+    fields.numero.focus(); // Move focus to the number field
+  } catch (error) {
+    showError(cepField, error.message);
+    // Clear fields on error
+    addressFields.forEach((field) => {
+      if (field) field.value = "";
+    });
+  } finally {
+    // Re-enable fields
+    addressFields.forEach((field) => {
+      if (field) field.disabled = false;
+    });
+  }
+}
+
+// --- Form Validation Helpers ---
+
+function showError(field, message) {
+  field.classList.add("invalid");
+  const errorContainer = field.nextElementSibling;
+  if (errorContainer && errorContainer.classList.contains("error-message")) {
+    errorContainer.textContent = message;
+  }
+}
+
+function clearError(field) {
+  if (!field) return;
+  field.classList.remove("invalid");
+  const errorContainer = field.nextElementSibling;
+  if (errorContainer && errorContainer.classList.contains("error-message")) {
+    errorContainer.textContent = "";
+  }
+}
+
+function validateCpf(cpf) {
+  cpf = cpf.replace(/[^\d]+/g, "");
+  if (cpf.length !== 11 || !!cpf.match(/(\d)\1{10}/)) return false;
+
+  let sum = 0;
+  let remainder;
+
+  for (let i = 1; i <= 9; i++) {
+    sum += parseInt(cpf.substring(i - 1, i)) * (11 - i);
+  }
+  remainder = (sum * 10) % 11;
+  if (remainder === 10 || remainder === 11) remainder = 0;
+  if (remainder !== parseInt(cpf.substring(9, 10))) return false;
+
+  sum = 0;
+  for (let i = 1; i <= 10; i++) {
+    sum += parseInt(cpf.substring(i - 1, i)) * (12 - i);
+  }
+  remainder = (sum * 10) % 11;
+  if (remainder === 10 || remainder === 11) remainder = 0;
+  if (remainder !== parseInt(cpf.substring(10, 11))) return false;
+
+  return true;
+}
+
+function validateField(field, allFields) {
+  let isValid = false;
+  const value = field.value.trim();
+
+  // Clear previous error
+  clearError(field);
+
+  switch (field.id) {
+    case "nome":
+      if (value.length < 3) {
+        showError(field, "O nome deve ter pelo menos 3 caracteres.");
+      } else {
+        isValid = true;
+      }
+      break;
+    case "cpf":
+      if (!validateCpf(value)) {
+        showError(field, "CPF inválido.");
+      } else {
+        isValid = true;
+      }
+      break;
+    case "cep":
+      if (value.replace(/\D/g, "").length !== 8) {
+        showError(field, "CEP inválido.");
+      } else {
+        isValid = true;
+      }
+      break;
+    case "logradouro":
+    case "bairro":
+    case "cidade":
+    case "estado":
+    case "numero":
+      if (value.length < 1) {
+        showError(field, "Este campo é obrigatório.");
+      } else {
+        // A basic check is enough as some fields are auto-filled
+        isValid = true;
+      }
+      break;
+    case "telefone":
+      // Regex for (XX) XXXXX-XXXX or (XX) XXXX-XXXX
+      if (!/^\(\d{2}\)\s\d{4,5}-\d{4}$/.test(value)) {
+        showError(field, "Formato de telefone inválido.");
+      } else {
+        isValid = true;
+      }
+      break;
+    case "email":
+      // Basic email regex
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+        showError(field, "Por favor, insira um e-mail válido.");
+      } else {
+        isValid = true;
+      }
+      break;
+    case "senha":
+      if (value.length < 8) {
+        showError(field, "A senha deve ter no mínimo 8 caracteres.");
+      } else {
+        isValid = true;
+      }
+      break;
+    case "confirmar-senha":
+      if (value !== allFields.senha.value) {
+        showError(field, "As senhas não coincidem.");
+      } else if (!value) {
+        showError(field, "Confirmação de senha é obrigatória.");
+      } else {
+        isValid = true;
+      }
+      break;
+    default:
+      isValid = true; // For fields without validation
+  }
+
+  if (isValid) {
+    clearError(field);
+  }
+
+  return isValid;
+}
+
+function maskPhone(event) {
+  let value = event.target.value.replace(/\D/g, "");
+  value = value.replace(/^(\d{2})(\d)/g, "($1) $2");
+  value = value.replace(/(\d)(\d{4})$/, "$1-$2");
+  event.target.value = value;
+}
+
+function maskCpf(event) {
+  let value = event.target.value.replace(/\D/g, "");
+  value = value.replace(/(\d{3})(\d)/, "$1.$2");
+  value = value.replace(/(\d{3})(\d)/, "$1.$2");
+  value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+  event.target.value = value;
+}
+
+function maskCep(event) {
+  let value = event.target.value.replace(/\D/g, "");
+  if (value.length > 5) {
+    value = value.slice(0, 5) + "-" + value.slice(5, 8);
+  }
+  event.target.value = value;
+}
+
+function checkPasswordStrength(password) {
+  const container = document.getElementById("password-strength-container");
+  const barFill = container?.querySelector(".strength-bar-fill");
+  const text = container?.querySelector(".strength-text");
+
+  if (!container || !barFill || !text) return;
+
+  // Verifica se há uma mensagem de erro ativa para o campo de senha
+  const passwordField = document.getElementById("senha");
+  const errorContainer = passwordField?.nextElementSibling;
+  const hasError =
+    errorContainer &&
+    errorContainer.classList.contains("error-message") &&
+    errorContainer.textContent.length > 0;
+
+  // Oculta o indicador se não houver senha ou se houver um erro
+  if (!password || hasError) {
+    container.classList.remove("visible");
+    return;
+  }
+  container.classList.add("visible");
+
+  let score = 0;
+  const checks = [
+    /[a-z]/, // lowercase
+    /[A-Z]/, // uppercase
+    /[0-9]/, // numbers
+    /[^a-zA-Z0-9]/, // special chars
+  ];
+
+  if (password.length < 8) {
+    score = 1;
+  } else {
+    score = 1; // Base score for length
+    checks.forEach((regex) => {
+      if (regex.test(password)) {
+        score++;
+      }
+    });
+  }
+
+  let message = "";
+  let className = "";
+
+  switch (score) {
+    case 1:
+      message = "Fraca";
+      className = "weak";
+      break;
+    case 2:
+      message = "Média";
+      className = "medium";
+      break;
+    case 3:
+      message = "Forte";
+      className = "strong";
+      break;
+    case 4:
+    case 5:
+      message = "Muito Forte";
+      className = "very-strong";
+      break;
+  }
+
+  barFill.className = "strength-bar-fill"; // Reset
+  if (className) barFill.classList.add(className);
+  text.textContent = message;
+  text.style.color = getComputedStyle(barFill).backgroundColor;
 }

@@ -50,12 +50,16 @@
               onerror="this.style.display='none'"
             />
           </a>
-          <h2>Camiseta Gola Careca 100% Algodão</h2>
-          <form class="tamanhos" aria-label="Escolha de tamanho">
+          <h2>Camiseta Masculina 100% Algodão</h2>
+          <div
+            class="tamanhos"
+            role="radiogroup"
+            aria-label="Escolha de tamanho"
+          >
             <label><input type="radio" name="tm1" value="P" /> P</label>
             <label><input type="radio" name="tm1" value="M" /> M</label>
             <label><input type="radio" name="tm1" value="G" /> G</label>
-          </form>
+          </div>
           <p class="price">R$ 59,90</p>
           <a href="#" class="btn primary add-to-cart-btn" data-color="Preta"
             >Comprar</a
@@ -71,12 +75,16 @@
               onerror="this.style.display='none'"
             />
           </a>
-          <h2>Camiseta Gola Careca 100% Algodão</h2>
-          <form class="tamanhos">
+          <h2>Camiseta Masculina 100% Algodão</h2>
+          <div
+            class="tamanhos"
+            role="radiogroup"
+            aria-label="Escolha de tamanho"
+          >
             <label><input type="radio" name="tm2" value="P" /> P</label>
             <label><input type="radio" name="tm2" value="M" /> M</label>
             <label><input type="radio" name="tm2" value="G" /> G</label>
-          </form>
+          </div>
           <p class="price">R$ 59,90</p>
           <a href="#" class="btn primary add-to-cart-btn" data-color="Preta"
             >Comprar</a
@@ -92,12 +100,16 @@
               onerror="this.style.display='none'"
             />
           </a>
-          <h2>Camiseta Gola Careca 100% Algodão</h2>
-          <form class="tamanhos">
+          <h2>Camiseta Masculina 100% Algodão</h2>
+          <div
+            class="tamanhos"
+            role="radiogroup"
+            aria-label="Escolha de tamanho"
+          >
             <label><input type="radio" name="tm3" value="P" /> P</label>
             <label><input type="radio" name="tm3" value="M" /> M</label>
             <label><input type="radio" name="tm3" value="G" /> G</label>
-          </form>
+          </div>
           <p class="price">R$ 59,90</p>
           <a href="#" class="btn primary add-to-cart-btn" data-color="Preta"
             >Comprar</a
@@ -113,12 +125,16 @@
               onerror="this.style.display='none'"
             />
           </a>
-          <h2>Camiseta Gola Careca 100% Algodão</h2>
-          <form class="tamanhos">
+          <h2>Camiseta Masculina 100% Algodão</h2>
+          <div
+            class="tamanhos"
+            role="radiogroup"
+            aria-label="Escolha de tamanho"
+          >
             <label><input type="radio" name="tm4" value="P" /> P</label>
             <label><input type="radio" name="tm4" value="M" /> M</label>
             <label><input type="radio" name="tm4" value="G" /> G</label>
-          </form>
+          </div>
           <p class="price">R$ 59,90</p>
           <a href="#" class="btn primary add-to-cart-btn" data-color="Branca"
             >Comprar</a
@@ -129,6 +145,15 @@
 
     <footer class="site-footer">
       <div class="container footer-inner">
+        <div class="footer-links">
+          <a href="sobre-nos.html" class="footer-link">Sobre Nós</a>
+          <a href="politica-de-privacidade.html" class="footer-link"
+            >Política de Privacidade</a
+          >
+          <a href="termos-de-servico.html" class="footer-link"
+            >Termos de Serviço</a
+          >
+        </div>
         <p>
           &copy; <span id="year"></span> 2R Camisetas — Todos os direitos
           reservados.
@@ -147,6 +172,25 @@
         </ul>
       </div>
     </footer>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-consent-banner">
+      <p class="cookie-consent-text">
+        Usamos cookies para garantir que você tenha a melhor experiência em
+        nosso site. <a href="politica-de-privacidade.html">Saiba mais</a>.
+      </p>
+      <button id="cookie-accept-btn" class="btn primary">Aceitar</button>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button
+      id="back-to-top-btn"
+      class="back-to-top-btn"
+      title="Voltar ao topo"
+      aria-label="Voltar ao topo"
+    >
+      &uarr;
+    </button>
     <script src="js/scripts.js"></script>
   </body>
 </html>

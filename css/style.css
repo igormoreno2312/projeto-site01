@@ -362,6 +362,7 @@ html[data-theme="dark"] .moon-icon {
 .page-title {
   font-size: clamp(1.6rem, 0.7rem + 2.5vw, 2.4rem);
   margin: 2rem 0 1rem;
+  text-align: center; /* Centraliza o título da página */
 }
 
 /* For static content pages like policy, about, etc. */
@@ -496,21 +497,45 @@ html[data-theme="light"] .price {
 
 .tamanhos {
   display: flex;
-  gap: 0.75rem;
+  gap: 0.5rem;
   align-items: center;
+  justify-content: center; /* Centraliza as opções de tamanho */
   flex-wrap: wrap;
+  margin: 0.5rem 0; /* Adiciona um pouco de espaço vertical */
 }
 .tamanhos label {
-  display: flex;
-  gap: 0.35rem;
-  align-items: center; /* background is inherited */
+  display: inline-block;
   border: 1px solid var(--stroke);
-  padding: 0.35rem 0.55rem;
-  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  text-align: center;
+  min-width: 42px;
+  color: var(--muted);
+}
+.tamanhos label:hover {
+  background-color: color-mix(in srgb, var(--text) 5%, transparent);
+  border-color: var(--accent);
+  color: var(--text);
+}
+.tamanhos input[type="radio"] {
+  /* Esconde o radio button, mas o mantém acessível */
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
   cursor: pointer;
 }
-.tamanhos input {
-  accent-color: var(--accent);
+/* Estiliza a label quando o radio button está selecionado */
+.tamanhos label:has(input:checked) {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #fff; /* Força texto branco para contraste */
+  border-color: transparent;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(100, 116, 139, 0.2);
 }
 
 .site-footer {
@@ -525,6 +550,28 @@ html[data-theme="light"] .price {
   flex-direction: column;
   align-items: center;
   gap: 0.6rem;
+}
+.footer-links {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.footer-link {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+.footer-link:hover {
+  color: var(--accent);
+}
+.cookie-consent-text a:hover {
+  text-decoration: underline;
+}
+#cookie-accept-btn {
+  padding: 0.6rem 1rem;
+  flex-shrink: 0; /* Prevent button from shrinking on smaller screens */
 }
 .footer-inner p {
   margin: 0;
@@ -548,14 +595,25 @@ html[data-theme="light"] .price {
   background: var(--card);
   border: 1px solid var(--stroke);
   border-radius: 16px;
-  padding: 1.25rem;
-  max-width: 680px;
+  padding: 1.1rem; /* Reduzido para um visual mais compacto */
+  max-width: 600px; /* Reduzido para um visual mais compacto */
+  margin-inline: auto; /* Centraliza o formulário */
+  margin-bottom: 2rem; /* Adiciona espaço na parte inferior */
 }
 .form-row {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
-  margin-bottom: 0.9rem;
+  margin-bottom: 0.4rem; /* Reduzido para um visual mais compacto */
+}
+.form-row-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+  margin-bottom: 0.4rem;
+}
+.form-row-grid .form-row {
+  margin-bottom: 0; /* Remove a margem extra dos rows dentro do grid */
 }
 .form-row-space-between {
   flex-direction: row;
@@ -578,13 +636,87 @@ html[data-theme="light"] .price {
   background-color: var(--card-2);
   border: 1px solid var(--stroke);
   color: var(--text);
-  padding: 0.9rem 1.1rem;
+  padding: 0.6rem 0.8rem; /* Reduzido para um visual mais compacto */
   border-radius: 10px;
   outline: none;
   font-size: 1.05rem;
 }
 .form-row input:focus {
   border-color: var(--accent);
+}
+.form-row input.invalid {
+  border-color: #ef4444; /* red-500 */
+}
+.error-message {
+  color: #ef4444; /* red-500 */
+  font-size: 0.8rem;
+  min-height: 1.2rem; /* Reserve space to prevent layout shifts */
+  margin-top: 0.25rem;
+  font-weight: 600;
+}
+
+/* Password Strength Indicator */
+.password-strength-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+  height: 1.2rem; /* Match error message height */
+  transition: opacity 0.3s ease;
+  opacity: 0; /* Hidden by default, made visible by JS */
+}
+.password-strength-container.visible {
+  opacity: 1;
+}
+/* Puxa o indicador de força para cima, para ocupar o mesmo espaço da mensagem de erro. */
+/* O JS garante que apenas um seja visível de cada vez. */
+.error-message + .password-strength-container {
+  margin-top: -1.2rem;
+}
+
+.strength-bar {
+  flex-grow: 1;
+  height: 8px;
+  background-color: var(--stroke);
+  border-radius: 999px;
+  position: relative;
+  overflow: hidden;
+}
+
+.strength-bar-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0; /* Controlled by JS */
+  border-radius: 999px;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+/* Strength levels */
+.strength-bar-fill.weak {
+  width: 25%;
+  background-color: #ef4444;
+} /* red */
+.strength-bar-fill.medium {
+  width: 50%;
+  background-color: #f97316;
+} /* orange */
+.strength-bar-fill.strong {
+  width: 75%;
+  background-color: #facc15;
+} /* yellow */
+.strength-bar-fill.very-strong {
+  width: 100%;
+  background-color: #22c55e;
+} /* green */
+
+.strength-text {
+  font-size: 0.8rem;
+  font-weight: 600;
+  width: 80px; /* Fixed width to prevent layout shifts */
+  text-align: right;
+  transition: color 0.3s ease;
 }
 .form-actions {
   display: flex;
@@ -922,6 +1054,84 @@ html[data-theme="light"] .price {
 .toast.show {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Cookie Consent Banner */
+#cookie-consent-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--card);
+  border-top: 1px solid var(--stroke);
+  padding: 1rem;
+  z-index: 1500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  transform: translateY(100%);
+  opacity: 0;
+  transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+  pointer-events: none;
+}
+#cookie-consent-banner.show {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+.cookie-consent-text {
+  color: var(--muted);
+  font-size: 0.9rem;
+  text-align: center;
+  margin: 0;
+}
+.cookie-consent-text a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+@media (max-width: 768px) {
+  #cookie-consent-banner {
+    flex-direction: column;
+    gap: 0.8rem;
+    padding: 1rem 1.5rem;
+  }
+}
+
+/* Back to Top Button */
+.back-to-top-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transform: translateY(100px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.2s ease;
+}
+.back-to-top-btn.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.back-to-top-btn:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  transform: translateY(-3px);
 }
 
 /* Layout do Carrinho */

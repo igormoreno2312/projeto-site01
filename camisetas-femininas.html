@@ -44,18 +44,22 @@
         <article class="produto">
           <a href="produto-detalhe.html?id=fem-preta-1">
             <img
-              src="imagens/camisetas femininas/camiseta preta frente 1.png"
+              src="imagens/camisetas femininas/feminina vermelha.png"
               alt="Camiseta feminina preta"
               class="produto-imagem"
               onerror="this.style.display='none'"
             />
           </a>
-          <h2>Camiseta 100% Algodão</h2>
-          <form class="tamanhos">
+          <h2>Camiseta Feminina 100% Algodão</h2>
+          <div
+            class="tamanhos"
+            role="radiogroup"
+            aria-label="Escolha de tamanho"
+          >
             <label><input type="radio" name="tf1" value="P" /> P</label>
             <label><input type="radio" name="tf1" value="M" /> M</label>
             <label><input type="radio" name="tf1" value="G" /> G</label>
-          </form>
+          </div>
           <p class="price">R$ 59,90</p>
           <a href="#" class="btn primary add-to-cart-btn" data-color="Preta"
             >Comprar</a
@@ -63,22 +67,26 @@
         </article>
 
         <article class="produto">
-          <a href="produto-detalhe.html?id=fem-preta-2">
+          <a href="produto-detalhe.html?id=fem-branca-1">
             <img
-              src="imagens/camisetas femininas/camiseta preta frente 1.png"
-              alt="Camiseta feminina preta 2"
+              src="imagens/camisetas femininas/feminina branca.png"
+              alt="Camiseta feminina branca"
               class="produto-imagem"
               onerror="this.style.display='none'"
             />
           </a>
-          <h2>Camiseta 100% Algodão</h2>
-          <form class="tamanhos">
+          <h2>Camiseta Feminina 100% Algodão</h2>
+          <div
+            class="tamanhos"
+            role="radiogroup"
+            aria-label="Escolha de tamanho"
+          >
             <label><input type="radio" name="tf2" value="P" /> P</label>
             <label><input type="radio" name="tf2" value="M" /> M</label>
             <label><input type="radio" name="tf2" value="G" /> G</label>
-          </form>
+          </div>
           <p class="price">R$ 59,90</p>
-          <a href="#" class="btn primary add-to-cart-btn" data-color="Preta"
+          <a href="#" class="btn primary add-to-cart-btn" data-color="Branca"
             >Comprar</a
           >
         </article>
@@ -86,28 +94,65 @@
         <article class="produto">
           <a href="produto-detalhe.html?id=fem-rosa-1">
             <img
-              src="imagens/camisetas femininas/camiseta rosa frente.png"
+              src="imagens/camisetas femininas/feminina rosa.png"
               alt="Camiseta feminina rosa"
               class="produto-imagem"
               onerror="this.style.display='none'"
             />
           </a>
-          <h2>Camiseta 100% Algodão</h2>
-          <form class="tamanhos">
+          <h2>Camiseta Feminina 100% Algodão</h2>
+          <div
+            class="tamanhos"
+            role="radiogroup"
+            aria-label="Escolha de tamanho"
+          >
             <label><input type="radio" name="tf3" value="P" /> P</label>
             <label><input type="radio" name="tf3" value="M" /> M</label>
             <label><input type="radio" name="tf3" value="G" /> G</label>
-          </form>
+          </div>
           <p class="price">R$ 59,90</p>
           <a href="#" class="btn primary add-to-cart-btn" data-color="Rosa"
             >Comprar</a
           >
         </article>
+
+        <article class="produto">
+          <a href="produto-detalhe.html?id=fem-vermelha-1">
+            <img
+              src="imagens/camisetas femininas/feminina branca 01.png"
+              alt="Camiseta feminina vermelha"
+              class="produto-imagem"
+              onerror="this.style.display='none'"
+            />
+          </a>
+          <h2>Camiseta Feminina 100% Algodão</h2>
+          <div
+            class="tamanhos"
+            role="radiogroup"
+            aria-label="Escolha de tamanho"
+          >
+            <label><input type="radio" name="tf3" value="P" /> P</label>
+            <label><input type="radio" name="tf3" value="M" /> M</label>
+            <label><input type="radio" name="tf3" value="G" /> G</label>
+          </div>
+          <p class="price">R$ 59,90</p>
+          <a href="#" class="btn primary add-to-cart-btn" data-color="Rosa"
+            >Comprar</a
+          >
       </section>
     </main>
 
     <footer class="site-footer">
       <div class="container footer-inner">
+        <div class="footer-links">
+          <a href="sobre-nos.html" class="footer-link">Sobre Nós</a>
+          <a href="politica-de-privacidade.html" class="footer-link"
+            >Política de Privacidade</a
+          >
+          <a href="termos-de-servico.html" class="footer-link"
+            >Termos de Serviço</a
+          >
+        </div>
         <p>
           &copy; <span id="year"></span> 2R Camisetas — Todos os direitos
           reservados.
@@ -126,6 +171,25 @@
         </ul>
       </div>
     </footer>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-consent-banner">
+      <p class="cookie-consent-text">
+        Usamos cookies para garantir que você tenha a melhor experiência em
+        nosso site. <a href="politica-de-privacidade.html">Saiba mais</a>.
+      </p>
+      <button id="cookie-accept-btn" class="btn primary">Aceitar</button>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button
+      id="back-to-top-btn"
+      class="back-to-top-btn"
+      title="Voltar ao topo"
+      aria-label="Voltar ao topo"
+    >
+      &uarr;
+    </button>
     <script src="js/scripts.js"></script>
   </body>
 </html>
